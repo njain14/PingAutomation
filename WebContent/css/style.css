@@ -329,5 +329,6 @@ button.ghost {
 
 .dropdown:hover .dropdown-content {
   display: block;
+  background-color: #5A6267;
 }
 

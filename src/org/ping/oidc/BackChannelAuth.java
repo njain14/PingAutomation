@@ -42,7 +42,7 @@ public class BackChannelAuth {
 		if (responseCode == HttpURLConnection.HTTP_OK) {
 			JSONObject jsonResponse = parseJson(con);
 			System.out.println(jsonResponse.getString("access_token"));
-			if (DecodeJwt.authorization(jsonResponse.getString("id_token"))) {
+			if (Authorization.authorization(jsonResponse.getString("id_token"))) {
 				SessionManager.createSession(response, jsonResponse.getString("access_token"));
 				JSONObject idTokenRes = DecodeJwt.testDecodeJWT(jsonResponse.getString("id_token"));
 				session = request.getSession();
