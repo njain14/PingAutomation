@@ -7,16 +7,17 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Base64;
 import javax.net.ssl.HttpsURLConnection;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class BackChannelAuth {
 	static String AuthCode;
 	static String tokenEndpoint;
+	private static HttpSession session;
 
 	public static void getTokens(HttpServletRequest request, HttpServletResponse response, String code)
 			throws IOException, JSONException, ServletException {
@@ -37,15 +38,20 @@ public class BackChannelAuth {
 		con.setRequestProperty("Content-Type", "application/json");
 		con.getOutputStream();
 		int responseCode = con.getResponseCode();
-			
+
 		if (responseCode == HttpURLConnection.HTTP_OK) {
 			JSONObject jsonResponse = parseJson(con);
 			System.out.println(jsonResponse.getString("access_token"));
-			SessionManager.createSession(response, jsonResponse.getString("access_token"));
-			DecodeJwt.testDecodeJWT(jsonResponse.getString("id_token"));
-			RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
-			rd.forward(request, response);
-
+			if (DecodeJwt.authorization(jsonResponse.getString("id_token"))) {
+				SessionManager.createSession(response, jsonResponse.getString("access_token"));
+				JSONObject idTokenRes = DecodeJwt.testDecodeJWT(jsonResponse.getString("id_token"));
+				session = request.getSession();
+				session.setAttribute("username",
+						idTokenRes.getString("given_name") + " " + idTokenRes.getString("family_name"));
+				response.sendRedirect(request.getContextPath() + "/index.jsp");
+			} else {
+				response.sendRedirect(request.getContextPath() + "/accessdenied.jsp");
+			}
 		}
 	}
 

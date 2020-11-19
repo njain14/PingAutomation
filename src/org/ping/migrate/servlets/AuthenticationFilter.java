@@ -22,7 +22,7 @@ public class AuthenticationFilter implements Filter {
 	String pingAutomate = null;
 	String authenticationURL = null;
 	private String[] noAuthorizationRequiredPages = { "/PingAutomation/Code", "/PingAutomation/js",
-			"/PingAutomation/css", "/PingAutomation/favicon.ico", "/PingAutomation/"};
+			"/PingAutomation/css", "/PingAutomation/favicon.ico", "/PingAutomation/Logout", "/PingAutomation/logout.jsp", "/PingAutomation/accessdenied.jsp" };
 
 	public void init(FilterConfig fConfig) throws ServletException {
 		this.context = fConfig.getServletContext();

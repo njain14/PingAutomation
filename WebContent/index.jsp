@@ -17,7 +17,20 @@
 <body>
 	<header>
 		<h2>PING Objects Migration</h2>
+		<div class="dropdown">
+		<ul>
+           <li class='login'>${sessionScope.username}
+              <div class="dropdown-content">
+                <ul>
+                    <li class='login'><a href='${pageContext.request.contextPath}/Logout'>Logout</a></li>
+                </ul>
+                </div>
+            </li>
+            </ul>
+          </div>
 	</header>
+	
+	
 	<div id="sidebar">
 <!-- 		<div class="toggle-btn" onclick="toggleSideBar()">
 			<span></span> <span></span> <span></span>

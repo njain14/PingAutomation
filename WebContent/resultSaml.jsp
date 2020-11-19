@@ -22,7 +22,6 @@
 	</div>
 
 	<div class="container">
-
 		<div id="#result">
 			<table cellpadding="1" cellspacing="1" border="1" bordercolor="gray">
 				<tr>

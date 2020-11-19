@@ -40,8 +40,14 @@ public class SessionManager {
 		response.addCookie(c);
 	}
 
-	public static void destroySession() {
-
+	public static void destroySession(HttpServletResponse response) {
+		Cookie c = new Cookie("pingAutomate", "");
+		c.setDomain("uhc.com");
+		c.setPath("/");
+		c.setValue("");
+		c.setSecure(false);
+		c.setMaxAge(0);
+		response.addCookie(c);
 	}
 
 	private static boolean validateCookie(String cookie, String client_id)
